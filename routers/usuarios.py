@@ -26,3 +26,23 @@ def criar_usuario(usuario: UsuarioCreate, db: Session = Depends(get_db)):
         "email": novo_usuario.email,
         "mensagem": "Usuário criado. Agora você pode criar seu perfil de atleta ou cadastrar quadras."
     }
+class UsuarioLogin(BaseModel):
+    email: str
+    senha: str
+
+@router.post("/login/")
+def login_usuario(dados: UsuarioLogin, db: Session = Depends(get_db)):
+    usuario = db.query(models.Usuario).filter(models.Usuario.email == dados.email).first()
+    if not usuario or usuario.senha_hash != dados.senha:
+        raise HTTPException(status_code=401, detail="Credenciais inválidas")
+    tipo = "usuario"
+    if usuario.atleta:
+        tipo = "atleta"
+    elif usuario.quadras:
+        tipo = "dono_quadra"
+    return {
+        "id": usuario.id,
+        "nome": usuario.nome,
+        "email": usuario.email,
+        "tipo": tipo
+    }

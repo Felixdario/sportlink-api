@@ -36,10 +36,10 @@ def login_usuario(dados: UsuarioLogin, db: Session = Depends(get_db)):
     if not usuario or usuario.senha_hash != dados.senha:
         raise HTTPException(status_code=401, detail="Credenciais inválidas")
     tipo = "usuario"
-    if usuario.atleta:
-        tipo = "atleta"
-    elif usuario.quadras:
+    if usuario.quadras and len(usuario.quadras) > 0:
         tipo = "dono_quadra"
+    elif usuario.atleta:
+        tipo = "atleta"
     return {
         "id": usuario.id,
         "nome": usuario.nome,

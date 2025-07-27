@@ -1,5 +1,7 @@
-
 fastapi
 uvicorn
 httpx
 sqlalchemy
+python-multipart
+aiofiles
+python-dotenv

@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from database import Base, engine
 from routers import (
     usuarios, atletas, esportes, quadras, competicoes,
@@ -10,6 +11,14 @@ from routers import (
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="API Sportlink")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],  # ou ["*"] para liberar geral
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.include_router(usuarios.router)
 app.include_router(atletas.router)

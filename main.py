@@ -14,7 +14,10 @@ app = FastAPI(title="API Sportlink")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # ou ["*"] para liberar geral
+    allow_origins=[
+        "http://localhost:3000",
+        "https://sportlink-webapp.vercel.app"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

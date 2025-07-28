@@ -1,3 +1,7 @@
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
+import models
+from getdb import get_db 
 from pydantic import BaseModel
 
 router = APIRouter(prefix="/atletas", tags=["Atletas"])
@@ -43,10 +47,6 @@ def ranking_atletas(
             esportes=[e.nome for e in getattr(a, "esportes", [])] if hasattr(a, "esportes") else []
         ) for a in atletas_ordenados
     ]
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
-import models
-from getdb import get_db 
 
 
 @router.post("/")

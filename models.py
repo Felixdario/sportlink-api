@@ -74,6 +74,8 @@ class Quadra(Base):
     avaliacao = Column(DECIMAL(2, 1))
     avaliacoes = Column(Integer)
     preco = Column(String(50))
+    descricao = Column(Text)
+    comodidades = Column(Text)
     disponivel = Column(Boolean, default=True)
     imagem = Column(String(255))
     dono_id = Column(Integer, ForeignKey("usuarios.id"))
@@ -88,15 +90,24 @@ class Competicao(Base):
     nome = Column(String(100), nullable=False)
     descricao = Column(Text)
     esporte_id = Column(Integer, ForeignKey("esportes.id"))
+    categoria = Column(String(100))
+    formato = Column(String(100))
+    vagas = Column(Integer)
+    minimo_participantes = Column(Integer)
+    permite_equipes = Column(Boolean, default=False)
     data_inicio = Column(DateTime)
     data_fim = Column(DateTime)
+    data_fim_inscricoes = Column(DateTime)
+    quadra_id = Column(Integer, ForeignKey("quadras.id"), nullable=True)
     local = Column(String(100))
     endereco = Column(String(255))
     latitude = Column(DECIMAL(9, 6))
     longitude = Column(DECIMAL(9, 6))
-    vagas = Column(Integer)
     premio = Column(String(255))
     taxa_inscricao = Column(String(50))
+    requisitos = Column(Text)
+    nivel_minimo = Column(String(50))
+    nivel_maximo = Column(String(50))
     imagem = Column(String(255))
     publica = Column(Boolean, default=True)
     inscricoes_automaticas = Column(Boolean, default=True)
@@ -120,30 +131,11 @@ class CompeticaoRegra(Base):
     regra = Column(Text)
 
 
-class Conversa(Base):
-    __tablename__ = "conversas"
-    id = Column(Integer, primary_key=True, index=True)
-    nome = Column(String(100))
-    tipo = Column(String(20), nullable=False)  # individual, grupo
-    avatar = Column(String(255))
-    data_criacao = Column(DateTime, default=datetime.utcnow)
-
-
 class ConversaParticipante(Base):
     __tablename__ = "conversa_participantes"
     conversa_id = Column(Integer, ForeignKey("conversas.id"), primary_key=True)
     usuario_id = Column(Integer, ForeignKey("usuarios.id"), primary_key=True)
     status = Column(String(20), default="ativo")  # ativo, removido, etc
-
-
-class Mensagem(Base):
-    __tablename__ = "mensagens"
-    id = Column(Integer, primary_key=True, index=True)
-    conversa_id = Column(Integer, ForeignKey("conversas.id"))
-    remetente_id = Column(Integer, ForeignKey("usuarios.id"))
-    texto = Column(Text)
-    data_envio = Column(DateTime, default=datetime.utcnow)
-    status = Column(String(20), default="enviada")  # enviada, entregue, lida
 
 
 class Conquista(Base):
@@ -180,3 +172,66 @@ class AtividadeParticipante(Base):
     atividade_id = Column(Integer, ForeignKey("atividades.id"), primary_key=True)
     usuario_id = Column(Integer, ForeignKey("usuarios.id"), primary_key=True)
     status = Column(String(20), default="confirmado")
+
+class Equipe(Base):
+    __tablename__ = "equipes"
+    id = Column(Integer, primary_key=True, index=True)
+    nome = Column(String(100), nullable=False)
+    descricao = Column(Text)
+    logo = Column(String(255))
+    competicao_id = Column(Integer, ForeignKey("competicoes.id"))
+    capitao_id = Column(Integer, ForeignKey("atletas.id"))
+    data_criacao = Column(DateTime, default=datetime.utcnow)
+    
+    membros = relationship("Atleta", secondary="membro_equipe")
+    partidas_casa = relationship("Partida", foreign_keys="[Partida.equipe1_id]", back_populates="equipe1")
+    partidas_fora = relationship("Partida", foreign_keys="[Partida.equipe2_id]", back_populates="equipe2")
+
+class MembroEquipe(Base):
+    __tablename__ = "membro_equipe"
+    equipe_id = Column(Integer, ForeignKey("equipes.id"), primary_key=True)
+    atleta_id = Column(Integer, ForeignKey("atletas.id"), primary_key=True)
+    funcao = Column(String(50), default="jogador")  # jogador, técnico, auxiliar, etc
+    status = Column(String(20), default="ativo")  # ativo, inativo, suspenso
+
+class Partida(Base):
+    __tablename__ = "partidas"
+    id = Column(Integer, primary_key=True, index=True)
+    competicao_id = Column(Integer, ForeignKey("competicoes.id"))
+    fase = Column(String(50))  # grupos, oitavas, quartas, semifinal, final
+    data = Column(DateTime)
+    local = Column(String(255))
+    quadra_id = Column(Integer, ForeignKey("quadras.id"))
+    equipe1_id = Column(Integer, ForeignKey("equipes.id"), nullable=True)
+    equipe2_id = Column(Integer, ForeignKey("equipes.id"), nullable=True)
+    atleta1_id = Column(Integer, ForeignKey("atletas.id"), nullable=True)
+    atleta2_id = Column(Integer, ForeignKey("atletas.id"), nullable=True)
+    status = Column(String(20), default="agendada")  # agendada, em_andamento, finalizada, cancelada
+    resultado_equipe1 = Column(Integer)
+    resultado_equipe2 = Column(Integer)
+    detalhes = Column(Text)
+    data_criacao = Column(DateTime, default=datetime.utcnow)
+    
+    competicao = relationship("Competicao")
+    quadra = relationship("Quadra")
+    equipe1 = relationship("Equipe", foreign_keys=[equipe1_id], back_populates="partidas_casa")
+    equipe2 = relationship("Equipe", foreign_keys=[equipe2_id], back_populates="partidas_fora")
+    atleta1 = relationship("Atleta", foreign_keys=[atleta1_id])
+    atleta2 = relationship("Atleta", foreign_keys=[atleta2_id])
+    eventos = relationship("EventoPartida", back_populates="partida")
+
+class EventoPartida(Base):
+    __tablename__ = "eventos_partida"
+    id = Column(Integer, primary_key=True, index=True)
+    partida_id = Column(Integer, ForeignKey("partidas.id"))
+    tipo = Column(String(50))  # gol, cartão, falta, substituição, etc
+    tempo = Column(String(20))  # '15:30', '2T 23:15'
+    descricao = Column(Text)
+    atleta_id = Column(Integer, ForeignKey("atletas.id"), nullable=True)
+    equipe_id = Column(Integer, ForeignKey("equipes.id"), nullable=True)
+    valor = Column(Integer, nullable=True)  # para pontuações, gols, etc
+    data_criacao = Column(DateTime, default=datetime.utcnow)
+    
+    partida = relationship("Partida", back_populates="eventos")
+    atleta = relationship("Atleta")
+    equipe = relationship("Equipe")

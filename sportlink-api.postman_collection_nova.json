@@ -1,0 +1,978 @@
+{
+  "info": {
+    "_postman_id": "5f3d4c8a-1b6e-48eb-89c9-82a6b8e5f3a2",
+    "name": "SportLink API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Coleção completa para a API SportLink - Plataforma para gerenciamento de eventos esportivos, quadras e competições."
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://sportlink-api.onrender.com/",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Autenticação e Usuários",
+      "description": "Endpoints para criação e autenticação de usuários",
+      "item": [
+        {
+          "name": "Criar Usuário",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/usuarios/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "usuarios",
+                ""
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nome\": \"Nome do Usuário\",\n    \"email\": \"usuario@email.com\",\n    \"senha\": \"senha123\"\n}"
+            },
+            "description": "Cria um novo usuário na plataforma"
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/usuarios/login/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "usuarios",
+                "login",
+                ""
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"usuario@email.com\",\n    \"senha\": \"senha123\"\n}"
+            },
+            "description": "Autentica um usuário e retorna informações sobre o tipo de perfil"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Atletas",
+      "description": "Endpoints para gerenciamento de perfis de atletas",
+      "item": [
+        {
+          "name": "Criar Atleta",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/atletas/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "atletas",
+                ""
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"usuario_id\": 1,\n    \"nivel\": \"intermediário\",\n    \"esportes_ids\": [1, 2]\n}"
+            },
+            "description": "Cria um perfil de atleta para um usuário existente"
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Atletas",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/atletas/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "atletas",
+                ""
+              ]
+            },
+            "description": "Lista todos os atletas cadastrados"
+          },
+          "response": []
+        },
+        {
+          "name": "Obter Atleta",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/atletas/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "atletas",
+                "1"
+              ]
+            },
+            "description": "Obtém detalhes de um atleta específico"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Esportes",
+      "description": "Endpoints para gerenciamento de esportes",
+      "item": [
+        {
+          "name": "Criar Esporte",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/esportes/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "esportes",
+                ""
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nome\": \"Futebol\"\n}"
+            },
+            "description": "Cria um novo tipo de esporte"
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Esportes",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/esportes/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "esportes",
+                ""
+              ]
+            },
+            "description": "Lista todos os esportes disponíveis"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Quadras",
+      "description": "Endpoints para gerenciamento de quadras",
+      "item": [
+        {
+          "name": "Criar Quadra",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/quadras/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "quadras",
+                ""
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nome\": \"Quadra Central\",\n    \"preco\": \"R$ 120/hora\",\n    \"descricao\": \"Quadra coberta com boa iluminação e estrutura para eventos\",\n    \"endereco\": \"Rua das Palmeiras, 123\",\n    \"dono_id\": 1,\n    \"esportes_ids\": [1, 2],\n    \"comodidades\": \"Vestiários, chuveiros, lanchonete, estacionamento\"\n}"
+            },
+            "description": "Cria uma nova quadra"
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Quadras",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/quadras/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "quadras",
+                ""
+              ]
+            },
+            "description": "Lista todas as quadras cadastradas"
+          },
+          "response": []
+        },
+        {
+          "name": "Obter Quadra",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/quadras/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "quadras",
+                "1"
+              ]
+            },
+            "description": "Obtém detalhes de uma quadra específica"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Avaliações de Quadras",
+      "description": "Endpoints para avaliação de quadras",
+      "item": [
+        {
+          "name": "Avaliar Quadra",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/quadra_avaliacoes/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "quadra_avaliacoes",
+                ""
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"quadra_id\": 1,\n    \"usuario_id\": 1,\n    \"nota\": 5,\n    \"comentario\": \"Excelente estrutura, recomendo!\"\n}"
+            },
+            "description": "Cria uma nova avaliação para uma quadra"
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Avaliações de uma Quadra",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/quadra_avaliacoes/?quadra_id=1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "quadra_avaliacoes",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "quadra_id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Lista todas as avaliações de uma quadra específica"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Competições",
+      "description": "Endpoints para gerenciamento de competições",
+      "item": [
+        {
+          "name": "Criar Competição",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/competicoes/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "competicoes",
+                ""
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nome\": \"Campeonato Regional de Futebol\",\n    \"descricao\": \"Competição anual de futebol para equipes amadoras\",\n    \"esporte_id\": 1,\n    \"categoria\": \"Amador\",\n    \"formato\": \"Liga + Eliminatórias\",\n    \"vagas\": 16,\n    \"minimo_participantes\": 10,\n    \"permite_equipes\": true,\n    \"data_inicio\": \"2025-09-10T09:00:00\",\n    \"data_fim\": \"2025-09-20T18:00:00\",\n    \"data_fim_inscricoes\": \"2025-09-01T23:59:59\",\n    \"premio\": \"R$ 5000 + Troféus\",\n    \"taxa_inscricao\": \"R$ 300 por equipe\",\n    \"requisitos\": \"Equipes devem ter no mínimo 11 jogadores e máximo 18\",\n    \"nivel_minimo\": \"iniciante\",\n    \"nivel_maximo\": \"intermediário\",\n    \"regras\": [\n        \"Partidas com 2 tempos de 45 minutos\",\n        \"Permitido 5 substituições por equipe\",\n        \"Cartão vermelho = 1 jogo de suspensão\"\n    ],\n    \"publica\": true,\n    \"inscricoes_automaticas\": false,\n    \"organizador_id\": 1\n}"
+            },
+            "description": "Cria uma nova competição"
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Competições",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/competicoes/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "competicoes",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "esporte_id",
+                  "value": "1",
+                  "disabled": true
+                },
+                {
+                  "key": "status",
+                  "value": "inscricoes",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Lista todas as competições com filtros opcionais"
+          },
+          "response": []
+        },
+        {
+          "name": "Obter Competição",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/competicoes/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "competicoes",
+                "1"
+              ]
+            },
+            "description": "Obtém detalhes de uma competição específica"
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar Quadras Próximas",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/competicoes/quadras_proximas/?latitude=-23.5505&longitude=-46.6333&esporte_id=1&raio_km=15",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "competicoes",
+                "quadras_proximas",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "latitude",
+                  "value": "-23.5505"
+                },
+                {
+                  "key": "longitude",
+                  "value": "-46.6333"
+                },
+                {
+                  "key": "esporte_id",
+                  "value": "1"
+                },
+                {
+                  "key": "raio_km",
+                  "value": "15"
+                },
+                {
+                  "key": "nome",
+                  "value": "Central",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Busca quadras próximas a um local específico"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Regras de Competição",
+      "description": "Endpoints para gerenciamento de regras de competições",
+      "item": [
+        {
+          "name": "Adicionar Regra",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/competicao_regras/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "competicao_regras",
+                ""
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"competicao_id\": 1,\n    \"regra\": \"Partidas com 2 tempos de 45 minutos\"\n}"
+            },
+            "description": "Adiciona uma regra a uma competição"
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Regras",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/competicao_regras/?competicao_id=1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "competicao_regras",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "competicao_id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Lista todas as regras de uma competição específica"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Participantes de Competição",
+      "description": "Endpoints para gerenciamento de participantes em competições",
+      "item": [
+        {
+          "name": "Inscrever Atleta",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/competicao_participantes/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "competicao_participantes",
+                ""
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"competicao_id\": 1,\n    \"atleta_id\": 1,\n    \"equipe_id\": 1\n}"
+            },
+            "description": "Inscreve um atleta em uma competição"
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Participantes",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/competicao_participantes/?competicao_id=1&status=aprovado",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "competicao_participantes",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "competicao_id",
+                  "value": "1"
+                },
+                {
+                  "key": "status",
+                  "value": "aprovado"
+                }
+              ]
+            },
+            "description": "Lista todos os participantes de uma competição específica"
+          },
+          "response": []
+        },
+        {
+          "name": "Aprovar Inscrição",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/competicao_participantes/1/aprovar",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "competicao_participantes",
+                "1",
+                "aprovar"
+              ]
+            },
+            "description": "Aprova a inscrição de um participante"
+          },
+          "response": []
+        },
+        {
+          "name": "Rejeitar Inscrição",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/competicao_participantes/1/rejeitar",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "competicao_participantes",
+                "1",
+                "rejeitar"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"motivo\": \"Nível técnico incompatível com a competição\"\n}"
+            },
+            "description": "Rejeita a inscrição de um participante"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Equipes",
+      "description": "Endpoints para gerenciamento de equipes",
+      "item": [
+        {
+          "name": "Criar Equipe",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/equipes/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "equipes",
+                ""
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nome\": \"Time Vencedor\",\n    \"competicao_id\": 1,\n    \"capitao_id\": 1,\n    \"descricao\": \"Time da região sul\",\n    \"logo\": \"https://example.com/logo.png\"\n}"
+            },
+            "description": "Cria uma nova equipe para uma competição"
+          },
+          "response": []
+        },
+        {
+          "name": "Adicionar Membro à Equipe",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/equipes/1/membros",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "equipes",
+                "1",
+                "membros"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"atleta_id\": 2,\n    \"funcao\": \"jogador\"\n}"
+            },
+            "description": "Adiciona um membro a uma equipe"
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Membros da Equipe",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/equipes/1/membros",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "equipes",
+                "1",
+                "membros"
+              ]
+            },
+            "description": "Lista todos os membros de uma equipe"
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Equipes da Competição",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/equipes/competicao/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "equipes",
+                "competicao",
+                "1"
+              ]
+            },
+            "description": "Lista todas as equipes de uma competição"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Partidas",
+      "description": "Endpoints para gerenciamento de partidas",
+      "item": [
+        {
+          "name": "Criar Partida",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/partidas/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partidas",
+                ""
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"competicao_id\": 1,\n    \"fase\": \"semifinal\",\n    \"data\": \"2025-09-15T14:00:00\",\n    \"quadra_id\": 1,\n    \"equipe1_id\": 1,\n    \"equipe2_id\": 2\n}"
+            },
+            "description": "Cria uma nova partida para uma competição"
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Partidas da Competição",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/partidas/competicao/1?fase=semifinal&status=agendada",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partidas",
+                "competicao",
+                "1"
+              ],
+              "query": [
+                {
+                  "key": "fase",
+                  "value": "semifinal"
+                },
+                {
+                  "key": "status",
+                  "value": "agendada"
+                }
+              ]
+            },
+            "description": "Lista todas as partidas de uma competição com filtros opcionais"
+          },
+          "response": []
+        },
+        {
+          "name": "Obter Detalhes da Partida",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/partidas/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partidas",
+                "1"
+              ]
+            },
+            "description": "Obtém detalhes completos de uma partida específica"
+          },
+          "response": []
+        },
+        {
+          "name": "Registrar Resultado",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/partidas/1/resultado",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partidas",
+                "1",
+                "resultado"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"resultado_equipe1\": 3,\n    \"resultado_equipe2\": 2,\n    \"detalhes\": \"Jogo muito disputado\",\n    \"eventos\": [\n        {\n            \"tipo\": \"gol\",\n            \"tempo\": \"15:30\",\n            \"atleta_id\": 1,\n            \"equipe_id\": 1\n        },\n        {\n            \"tipo\": \"gol\",\n            \"tempo\": \"35:10\",\n            \"atleta_id\": 2,\n            \"equipe_id\": 2\n        },\n        {\n            \"tipo\": \"gol\",\n            \"tempo\": \"40:22\",\n            \"atleta_id\": 1,\n            \"equipe_id\": 1\n        },\n        {\n            \"tipo\": \"cartao\",\n            \"tempo\": \"55:15\",\n            \"atleta_id\": 3,\n            \"equipe_id\": 1,\n            \"descricao\": \"Cartão amarelo\"\n        },\n        {\n            \"tipo\": \"gol\",\n            \"tempo\": \"75:45\",\n            \"atleta_id\": 1,\n            \"equipe_id\": 1\n        },\n        {\n            \"tipo\": \"gol\",\n            \"tempo\": \"88:12\",\n            \"atleta_id\": 4,\n            \"equipe_id\": 2\n        }\n    ]\n}"
+            },
+            "description": "Registra o resultado final de uma partida"
+          },
+          "response": []
+        },
+        {
+          "name": "Adicionar Evento",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/partidas/1/evento",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partidas",
+                "1",
+                "evento"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"tipo\": \"gol\",\n    \"tempo\": \"65:20\",\n    \"atleta_id\": 5,\n    \"equipe_id\": 1,\n    \"descricao\": \"Gol de cabeça\"\n}"
+            },
+            "description": "Adiciona um evento a uma partida em andamento"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Conquistas",
+      "description": "Endpoints para gerenciamento de conquistas de atletas",
+      "item": [
+        {
+          "name": "Criar Conquista",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/conquistas/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "conquistas",
+                ""
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"atleta_id\": 1,\n    \"nome\": \"Campeão Regional\",\n    \"descricao\": \"Venceu o campeonato regional de futebol\",\n    \"icone\": \"trophy_gold\",\n    \"data_conquista\": \"2025-09-20\"\n}"
+            },
+            "description": "Cria uma nova conquista para um atleta"
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Conquistas do Atleta",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/conquistas/?atleta_id=1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "conquistas",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "atleta_id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Lista todas as conquistas de um atleta específico"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Atividades",
+      "description": "Endpoints para gerenciamento de atividades esportivas",
+      "item": [
+        {
+          "name": "Criar Atividade",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/atividades/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "atividades",
+                ""
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"tipo\": \"partida\",\n    \"nome\": \"Pelada de Domingo\",\n    \"data\": \"2025-08-15\",\n    \"local\": \"Quadra Central\",\n    \"quadra_id\": 1,\n    \"organizador_id\": 1\n}"
+            },
+            "description": "Cria uma nova atividade esportiva"
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Atividades",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/atividades/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "atividades",
+                ""
+              ]
+            },
+            "description": "Lista todas as atividades cadastradas"
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

@@ -235,3 +235,46 @@ class EventoPartida(Base):
     partida = relationship("Partida", back_populates="eventos")
     atleta = relationship("Atleta")
     equipe = relationship("Equipe")
+
+
+class PartidaAmistosa(Base):
+    __tablename__ = "partidas_amistosas"
+    id = Column(Integer, primary_key=True, index=True)
+    esporte_id = Column(Integer, ForeignKey("esportes.id"), nullable=True)
+    data = Column(DateTime)
+    local = Column(String(255))
+    quadra_id = Column(Integer, ForeignKey("quadras.id"), nullable=True)
+    equipe1_id = Column(Integer, ForeignKey("equipes.id"), nullable=True)
+    equipe2_id = Column(Integer, ForeignKey("equipes.id"), nullable=True)
+    atleta1_id = Column(Integer, ForeignKey("atletas.id"), nullable=True)
+    atleta2_id = Column(Integer, ForeignKey("atletas.id"), nullable=True)
+    status = Column(String(20), default="agendada")  # agendada, em_andamento, finalizada, cancelada
+    resultado_equipe1 = Column(Integer)
+    resultado_equipe2 = Column(Integer)
+    detalhes = Column(Text)
+    organizador_id = Column(Integer, ForeignKey("usuarios.id"), nullable=True)
+    data_criacao = Column(DateTime, default=datetime.utcnow)
+
+    quadra = relationship("Quadra")
+    equipe1 = relationship("Equipe", foreign_keys=[equipe1_id])
+    equipe2 = relationship("Equipe", foreign_keys=[equipe2_id])
+    atleta1 = relationship("Atleta", foreign_keys=[atleta1_id])
+    atleta2 = relationship("Atleta", foreign_keys=[atleta2_id])
+    eventos = relationship("EventoPartidaAmistosa", back_populates="partida")
+
+
+class EventoPartidaAmistosa(Base):
+    __tablename__ = "eventos_partida_amistosa"
+    id = Column(Integer, primary_key=True, index=True)
+    partida_id = Column(Integer, ForeignKey("partidas_amistosas.id"))
+    tipo = Column(String(50))
+    tempo = Column(String(20))
+    descricao = Column(Text)
+    atleta_id = Column(Integer, ForeignKey("atletas.id"), nullable=True)
+    equipe_id = Column(Integer, ForeignKey("equipes.id"), nullable=True)
+    valor = Column(Integer, nullable=True)
+    data_criacao = Column(DateTime, default=datetime.utcnow)
+
+    partida = relationship("PartidaAmistosa", back_populates="eventos")
+    atleta = relationship("Atleta")
+    equipe = relationship("Equipe")

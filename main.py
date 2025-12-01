@@ -7,6 +7,7 @@ from routers import (
     conquistas, quadra_avaliacoes, atividades,
     equipes, partidas
 )
+from routers import partidas_amistosas
 
 Base.metadata.create_all(bind=engine)
 
@@ -35,3 +36,4 @@ app.include_router(quadra_avaliacoes.router)
 app.include_router(atividades.router)
 app.include_router(equipes.router)
 app.include_router(partidas.router)
+app.include_router(partidas_amistosas.router)

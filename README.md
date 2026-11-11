@@ -51,7 +51,9 @@ A documentação interativa da API pode ser acessada em `/docs` após iniciar o 
 ├── pyproject.toml         # Configuração do projeto Python
 ├── README.md              # Este arquivo
 ├── .gitignore
-├── sportlink.db           # Banco de dados SQLite
+├── seguranca.py           # Hash de senha (scrypt)
+├── migration_senhas.py    # Converte senhas antigas em texto puro para hash
+├── tests/                 # Testes com pytest
 ├── routers/               # Módulos de rotas da API
 │   ├── usuarios.py
 │   ├── atletas.py
@@ -106,13 +108,19 @@ A documentação interativa da API pode ser acessada em `/docs` após iniciar o 
    pip install -r dev-requirements.txt
    ```
 
-4. **Execute a aplicação:**
+4. **Banco de dados:** a API cria o SQLite `sportlink.db` na primeira execução (ou usa `DATABASE_URL`). O arquivo não é versionado. Se você tem um banco criado antes do hash de senha, rode uma vez:
+
+   ```sh
+   python migration_senhas.py
+   ```
+
+5. **Execute a aplicação:**
 
    ```sh
    uvicorn main:app --reload --port 5000
    ```
 
-5. **Acesse a documentação interativa:**
+6. **Acesse a documentação interativa:**
    - [http://localhost:5000/docs](http://localhost:5000/docs)
 
 ---
@@ -140,8 +148,8 @@ Consulte `/docs` para detalhes de cada endpoint, parâmetros e exemplos de uso.
 
 ## Testes
 
-- Os testes podem ser escritos usando `pytest`.
-- Para rodar os testes:
+- As senhas são gravadas com hash scrypt (`seguranca.py`), nunca em texto puro. Senhas antigas em texto puro viram hash no primeiro login certo ou com `migration_senhas.py`.
+- Os testes usam `pytest` e um SQLite temporário, sem tocar no `sportlink.db`:
   ```sh
   pytest
   ```

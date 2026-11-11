@@ -131,13 +131,6 @@ class CompeticaoRegra(Base):
     regra = Column(Text)
 
 
-class ConversaParticipante(Base):
-    __tablename__ = "conversa_participantes"
-    conversa_id = Column(Integer, ForeignKey("conversas.id"), primary_key=True)
-    usuario_id = Column(Integer, ForeignKey("usuarios.id"), primary_key=True)
-    status = Column(String(20), default="ativo")  # ativo, removido, etc
-
-
 class Conquista(Base):
     __tablename__ = "conquistas"
     id = Column(Integer, primary_key=True, index=True)

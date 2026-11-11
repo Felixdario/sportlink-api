@@ -11,3 +11,6 @@ venv.bak/
 __pycache__/
 
 .pytest_cache/
+
+# Banco SQLite local: criado pela API na primeira execução, nunca versionado
+*.db
